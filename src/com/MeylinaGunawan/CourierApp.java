@@ -1,11 +1,25 @@
 package com.MeylinaGunawan;
 
+import com.MeylinaGunawanModel.Harga;
+import com.MrylinaGunawanDAO.CourirerDAO;
+import java.util.Date;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class CourierApp extends javax.swing.JFrame {
 
+    List<Harga> kotaTujuan;
+    CourirerDAO dao = new CourirerDAO();
+
     public CourierApp() {
+        kotaTujuan = dao.getHarga();
+        for (Harga harga : kotaTujuan) {
+            System.out.println("Kota "+ harga.getKotaTujuan());
+//            cbxTujuan.addItem(""+harga);
+        }
         initComponents();
+        Date date = new Date();
+        tanggalKirim.setDate(date);
     }
 
     @SuppressWarnings("unchecked")
@@ -25,7 +39,7 @@ public class CourierApp extends javax.swing.JFrame {
         jTextField8 = new javax.swing.JTextField();
         kotaPengirim = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        teleponPengirim = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         provinsiPengirim = new javax.swing.JComboBox<>();
         penerimaPanel = new javax.swing.JPanel();
@@ -40,7 +54,7 @@ public class CourierApp extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jTextField11 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField12 = new javax.swing.JTextField();
+        teleponPenerima = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         provinsiPenerima = new javax.swing.JComboBox<>();
         dataPaketPanel = new javax.swing.JPanel();
@@ -54,7 +68,7 @@ public class CourierApp extends javax.swing.JFrame {
         jenisBarang = new javax.swing.JTextField();
         beratBarang = new javax.swing.JTextField();
         jLabel25 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        tanggalKirim = new com.toedter.calendar.JDateChooser();
         kotaTujuanDataPaket = new javax.swing.JComboBox<>();
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
@@ -148,7 +162,7 @@ public class CourierApp extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3)
+                .addComponent(teleponPengirim)
                 .addContainerGap())
         );
         pengirimanPanelLayout.setVerticalGroup(
@@ -178,8 +192,8 @@ public class CourierApp extends javax.swing.JFrame {
                     .addComponent(jLabel9)
                     .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(teleponPengirim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         penerimaPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Penerima"));
@@ -198,7 +212,12 @@ public class CourierApp extends javax.swing.JFrame {
 
         jLabel13.setText("Provinsi                  :");
 
-        kotaPenerima.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-pilih kota-", "Bandung", "Semarang", "Surabaya", "Tiimika", "Malang", "Tanggerang", "Tasik Malaya", "Yogyakarta", "Medan" }));
+        kotaPenerima.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-pilih kota-", "Bandung", "Semarang", "Surabaya", "Timika", "Malang", "Tanggerang", "Tasik Malaya", "Yogyakarta", "Medan" }));
+        kotaPenerima.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                kotaPenerimaActionPerformed(evt);
+            }
+        });
 
         kodePosPenerima.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -212,7 +231,7 @@ public class CourierApp extends javax.swing.JFrame {
 
         jLabel12.setText("&");
 
-        provinsiPenerima.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-pilih provinsi-", "Sumatera Utara", "Banten", "Jawa Barat", "Jawa Tengah", "Jawa timur", "Papua" }));
+        provinsiPenerima.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-pilih provinsi-", "Sumatera Utara", "Banten", "Jawa Barat", "Jawa Tengah", "Jawa Timur", "Papua" }));
 
         javax.swing.GroupLayout penerimaPanelLayout = new javax.swing.GroupLayout(penerimaPanel);
         penerimaPanel.setLayout(penerimaPanelLayout);
@@ -228,7 +247,7 @@ public class CourierApp extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField12))
+                        .addComponent(teleponPenerima))
                     .addGroup(penerimaPanelLayout.createSequentialGroup()
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -262,9 +281,9 @@ public class CourierApp extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(namaPenerima, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(penerimaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(alamatPenerima, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(penerimaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(alamatPenerima, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
                 .addGap(18, 18, 18)
                 .addGroup(penerimaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
@@ -279,7 +298,7 @@ public class CourierApp extends javax.swing.JFrame {
                 .addGroup(penerimaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(teleponPenerima, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -296,9 +315,16 @@ public class CourierApp extends javax.swing.JFrame {
 
         jLabel19.setText("Tanggal Kirim          :");
 
+        beratBarang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                beratBarangActionPerformed(evt);
+            }
+        });
+
         jLabel25.setText("/kg");
 
-        kotaTujuanDataPaket.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-pilih kota-", "Bandung", "Semarang", "Surabaya", "Timika", "Malang", "Tanggerang", "Tasik Malaya", "Yogyakarta", "Medan" }));
+        kotaTujuanDataPaket.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bandung", "Semarang", "Surabaya", "Timika", "Malang", "Tanggerang", "Tasikmalaya", "Yogyakarta", "Medan" }));
+        kotaTujuanDataPaket.setToolTipText("");
         kotaTujuanDataPaket.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 kotaTujuanDataPaketActionPerformed(evt);
@@ -314,7 +340,7 @@ public class CourierApp extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel19)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(tanggalKirim, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel18)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -332,7 +358,7 @@ public class CourierApp extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel16)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(kotaTujuanDataPaket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(kotaTujuanDataPaket, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -358,7 +384,7 @@ public class CourierApp extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel19)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tanggalKirim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -439,7 +465,7 @@ public class CourierApp extends javax.swing.JFrame {
             dataPaketPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dataPaketPanelLayout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 1, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(dataPaketPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(dataPaketPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -561,7 +587,7 @@ public class CourierApp extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pengirimanPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(penerimaPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(penerimaPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(perhitunganPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
@@ -577,10 +603,10 @@ public class CourierApp extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pengirimanPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(penerimaPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pengirimanPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(penerimaPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dataPaketPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(dataPaketPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(perhitunganPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -604,105 +630,146 @@ public class CourierApp extends javax.swing.JFrame {
 
     private void YaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_YaActionPerformed
         // TODO add your handling code here:
-        String PilihAsuransi= "";
-        if(Ya.isSelected()){
+        String PilihAsuransi = "";
+        if (Ya.isSelected()) {
             PilihAsuransi = Ya.getText();
-                if(kotaTujuanDataPaket.getSelectedItem().equals("Bandung")){
+            hitungAsuransi.setText("Ya");
+            if (kotaTujuanDataPaket.getSelectedItem().equals("Bandung")) {
                 hargaBarang.setText("10000");
                 hitungKotaTujuan.setText("Bandung");
-                }
-                if(kotaTujuanDataPaket.getSelectedItem().equals("Semarang")){
-                    hargaBarang.setText("16000");
-                }
-                if(kotaTujuanDataPaket.getSelectedItem().equals("Surabaya")){
-                    hargaBarang.setText("18000");
-                }
-                if(kotaTujuanDataPaket.getSelectedItem().equals("Timika")){
-                    hargaBarang.setText("20000");
-                }
-                if(kotaTujuanDataPaket.getSelectedItem().equals("Malang")){
-                    hargaBarang.setText("18000");
-                }
-                if(kotaTujuanDataPaket.getSelectedItem().equals("Tanggerang")){
-                    hargaBarang.setText("8000");
-                }
-                if(kotaTujuanDataPaket.getSelectedItem().equals("Tasik Malaya")){
-                    hargaBarang.setText("12000");
-                }
-                if(kotaTujuanDataPaket.getSelectedItem().equals("Yogyakarta")){
-                    hargaBarang.setText("16000");
-                }
-                if(kotaTujuanDataPaket.getSelectedItem().equals("Medan")){
-                    hargaBarang.setText("20000");
-                }
-        }else{
-            if(Tidak.isSelected()){
-            PilihAsuransi = Tidak.getText();
+            }
+            if (kotaTujuanDataPaket.getSelectedItem().equals("Semarang")) {
+                hargaBarang.setText("16000");
+            }
+            if (kotaTujuanDataPaket.getSelectedItem().equals("Surabaya")) {
+                hargaBarang.setText("18000");
+            }
+            if (kotaTujuanDataPaket.getSelectedItem().equals("Timika")) {
+                hargaBarang.setText("20000");
+            }
+            if (kotaTujuanDataPaket.getSelectedItem().equals("Malang")) {
+                hargaBarang.setText("18000");
+            }
+            if (kotaTujuanDataPaket.getSelectedItem().equals("Tanggerang")) {
+                hargaBarang.setText("8000");
+            }
+            if (kotaTujuanDataPaket.getSelectedItem().equals("Tasik Malaya")) {
+                hargaBarang.setText("12000");
+            }
+            if (kotaTujuanDataPaket.getSelectedItem().equals("Yogyakarta")) {
+                hargaBarang.setText("16000");
+            }
+            if (kotaTujuanDataPaket.getSelectedItem().equals("Medan")) {
+                hargaBarang.setText("20000");
+            }
+        } else {
+            if (Tidak.isSelected()) {
+                PilihAsuransi = Tidak.getText();
+
             }
         }
     }//GEN-LAST:event_YaActionPerformed
 
     private void kotaTujuanDataPaketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kotaTujuanDataPaketActionPerformed
         // TODO add your handling code here:
-        if(kotaTujuanDataPaket.getSelectedItem().equals("Bandung")){
-            hitungKotaTujuan.setText("Bandung");
-        }
-        if(kotaTujuanDataPaket.getSelectedItem().equals("Semarang")){
-            hitungKotaTujuan.setText("Semarang");
-        }
-        if(kotaTujuanDataPaket.getSelectedItem().equals("Surabaya")){
-            hitungKotaTujuan.setText("Surabaya");
-        }
-        if(kotaTujuanDataPaket.getSelectedItem().equals("Timika")){
-            hitungKotaTujuan.setText("Timika");
-        }
-        if(kotaTujuanDataPaket.getSelectedItem().equals("Malang")){
-            hitungKotaTujuan.setText("Malang");
-        }
-        if(kotaTujuanDataPaket.getSelectedItem().equals("Tanggerang")){
-            hitungKotaTujuan.setText("Tanggerang");
-        }
-        if(kotaTujuanDataPaket.getSelectedItem().equals("Tasik Malaya")){
-            hitungKotaTujuan.setText("Tasik Malaya");
-        }
-        if(kotaTujuanDataPaket.getSelectedItem().equals("Yogyakarta")){
-            hitungKotaTujuan.setText("Yogyakarta");
-        }
-        if(kotaTujuanDataPaket.getSelectedItem().equals("Medan")){
-            hitungKotaTujuan.setText("Medan");
-        }
     }//GEN-LAST:event_kotaTujuanDataPaketActionPerformed
 
     private void prosesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prosesButtonActionPerformed
         // TODO add your handling code here:
-       
+        hitungBeratPaket.setText(beratBarang.getText());
+        if (namaPenerima.getText().equals("") || namaPengirim.getText().equals("") || alamatPenerima.getText().equals("")
+                || alamatPengirim.getText().equals("") || kotaPenerima.getSelectedItem().equals("") || kotaPengirim.getSelectedItem().equals("")
+                || kodePosPenerima.getText().equals("") || kodePosPengirim.getText().equals("") || provinsiPenerima.getSelectedItem().equals("")
+                || provinsiPengirim.getSelectedItem().equals("") || teleponPenerima.getText().equals("") || teleponPengirim.getText().equals("")
+                || jenisBarang.getText().equals("") || beratBarang.getText().equals("") || jenisBarang.getText().equals("")
+                || dimensiDataPaket.getText().equals("") || tanggalKirim.getDate().equals("") || jenisLayanan.getSelectedItem().equals("")
+                || pilihAsuransiButtonGroup.getSelection().equals("") || pembayaranDataPaket.getSelectedItem().equals("")) {
+            JOptionPane.showMessageDialog(null, "Data Tidak Boleh Kosong", "Kesalahan", JOptionPane.ERROR_MESSAGE);
+            return;
+        } else {
+            JOptionPane.showMessageDialog(null, "Data Telah DiProses");
+        }
     }//GEN-LAST:event_prosesButtonActionPerformed
 
     private void TidakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TidakActionPerformed
         // TODO add your handling code here:
-        if(Tidak.isSelected()){
+        if (Tidak.isSelected()) {
             hargaBarang.setText("0");
+            hitungAsuransi.setText("Tidak");
         }
     }//GEN-LAST:event_TidakActionPerformed
 
     private void jenisLayananActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jenisLayananActionPerformed
         // TODO add your handling code here:
-        if(jenisLayanan.getSelectedItem().equals("Reguler")){
+        if (jenisLayanan.getSelectedItem().equals("Reguler")) {
             hitungJenisLayanan.setText("Reguler");
         }
-        if(jenisLayanan.getSelectedItem().equals("Kilat")){
+        if (jenisLayanan.getSelectedItem().equals("Kilat")) {
             hitungJenisLayanan.setText("Kilat");
         }
-        if(jenisLayanan.getSelectedItem().equals("SDS")){
+        if (jenisLayanan.getSelectedItem().equals("SDS")) {
             hitungJenisLayanan.setText("SDS");
         }
-        if(jenisLayanan.getSelectedItem().equals("ONS")){
+        if (jenisLayanan.getSelectedItem().equals("ONS")) {
             hitungJenisLayanan.setText("ONS");
         }
-        if(jenisLayanan.getSelectedItem().equals("HDS")){
+        if (jenisLayanan.getSelectedItem().equals("HDS")) {
             hitungJenisLayanan.setText("HDS");
         }
     }//GEN-LAST:event_jenisLayananActionPerformed
+
+    private void beratBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_beratBarangActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_beratBarangActionPerformed
+
+    private void kotaPenerimaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kotaPenerimaActionPerformed
+        // TODO add your handling code here:
+        if (kotaPenerima.getSelectedItem().equals("Bandung")) {
+            kotaTujuanDataPaket.setSelectedItem("Bandung");
+            hitungKotaTujuan.setText("Bandung");
+            provinsiPenerima.setSelectedItem("Jawa Barat");
+        }
+        if (kotaPenerima.getSelectedItem().equals("Semarang")) {
+            kotaTujuanDataPaket.setSelectedItem("Semarang");
+            hitungKotaTujuan.setText("Semarang");
+            provinsiPenerima.setSelectedItem("Jawa Tengah");
+        }
+        if (kotaPenerima.getSelectedItem().equals("Surabaya")) {
+            kotaTujuanDataPaket.setSelectedItem("Surabaya");
+            hitungKotaTujuan.setText("Surabaya");
+            provinsiPenerima.setSelectedItem("Jawa Timur");
+        }
+        if (kotaPenerima.getSelectedItem().equals("Timika")) {
+            kotaTujuanDataPaket.setSelectedItem("Timika");
+            hitungKotaTujuan.setText("Timika");
+            provinsiPenerima.setSelectedItem("Papua");
+        }
+        if (kotaPenerima.getSelectedItem().equals("Malang")) {
+            kotaTujuanDataPaket.setSelectedItem("Malang");
+            hitungKotaTujuan.setText("Malang");
+            provinsiPenerima.setSelectedItem("Jawa Timur");
+        }
+        if (kotaPenerima.getSelectedItem().equals("Tanggerang")) {
+            kotaTujuanDataPaket.setSelectedItem("Tanggerang");
+            hitungKotaTujuan.setText("Tanggerang");
+            provinsiPenerima.setSelectedItem("Banten");
+        }
+        if (kotaPenerima.getSelectedItem().equals("Tasik Malaya")) {
+            kotaTujuanDataPaket.setSelectedItem("Tasik Malaya");
+            hitungKotaTujuan.setText("Tasik Malaya");
+            provinsiPenerima.setSelectedItem("Jawa Barat");
+        }
+        if (kotaPenerima.getSelectedItem().equals("Yogyakarta")) {
+            kotaTujuanDataPaket.setSelectedItem("Yogyakarta");
+            hitungKotaTujuan.setText("Yogyakarta");
+            provinsiPenerima.setSelectedItem("Jawa Tengah");
+        }
+        if (kotaPenerima.getSelectedItem().equals("Medan")) {
+            kotaTujuanDataPaket.setSelectedItem("Medan");
+            hitungKotaTujuan.setText("Medan");
+            provinsiPenerima.setSelectedItem("Sumatera Utara");
+        }
+    }//GEN-LAST:event_kotaPenerimaActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -735,8 +802,8 @@ public class CourierApp extends javax.swing.JFrame {
             }
         });
     }
-    
-            
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton Tidak;
     private javax.swing.JRadioButton Ya;
@@ -750,7 +817,6 @@ public class CourierApp extends javax.swing.JFrame {
     private javax.swing.JLabel hitungBeratPaket;
     private javax.swing.JLabel hitungJenisLayanan;
     private javax.swing.JLabel hitungKotaTujuan;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -789,8 +855,6 @@ public class CourierApp extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jenisBarang;
     private javax.swing.JComboBox<String> jenisLayanan;
@@ -810,5 +874,8 @@ public class CourierApp extends javax.swing.JFrame {
     private javax.swing.JButton prosesButton;
     private javax.swing.JComboBox<String> provinsiPenerima;
     private javax.swing.JComboBox<String> provinsiPengirim;
+    private com.toedter.calendar.JDateChooser tanggalKirim;
+    private javax.swing.JTextField teleponPenerima;
+    private javax.swing.JTextField teleponPengirim;
     // End of variables declaration//GEN-END:variables
 }

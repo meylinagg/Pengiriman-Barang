@@ -10,26 +10,32 @@ package com.MeylinaGunawanModel;
  * @author user
  */
 public class Harga {
+
+    private String kotaTujuan;
     private double reguler;
     private double kilat;
     private double sds;
     private double ons;
     private double hds;
-    private String kotaTujuan;
 
     public Harga() {
     }
 
-    public Harga(double reguler, double kilat, double sds, double ons, double hds, String kotaTujuan) {
+    public Harga(String kotaTujuan, double reguler, double kilat, double sds, double ons, double hds) {
+        this.kotaTujuan = kotaTujuan;
         this.reguler = reguler;
         this.kilat = kilat;
         this.sds = sds;
         this.ons = ons;
         this.hds = hds;
+    }
+
+    /**
+     * @param kotaTujuan the kotaTujuan to set
+     */
+    public void setKotaTujuan(String kotaTujuan) {
         this.kotaTujuan = kotaTujuan;
     }
-    
-    
 
     /**
      * @return the reguler
@@ -108,10 +114,9 @@ public class Harga {
         return kotaTujuan;
     }
 
-    /**
-     * @param kotaTujuan the kotaTujuan to set
-     */
-    public void setKotaTujuan(String kotaTujuan) {
-        this.kotaTujuan = kotaTujuan;
+    @Override
+    public String toString() {
+        return this.getKotaTujuan();
     }
+
 }

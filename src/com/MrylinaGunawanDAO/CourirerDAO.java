@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CourirerDAO {
-    public static List<Harga> getHarga(){
+    
+    public List<Harga> getHarga(){
         List<Harga> hargaList = new ArrayList<>();
         try{
             
@@ -17,18 +18,17 @@ public class CourirerDAO {
                 Harga hargas = new Harga();
                 String line = scan.nextLine();
                 String[] data = line.split(",");
-                
                 hargas.setKotaTujuan(data[0]);
                 hargas.setReguler(Double.parseDouble(data[1]));
                 hargas.setKilat(Double.parseDouble(data[2]));
                 hargas.setSds(Double.parseDouble(data[3]));
                 hargas.setOns(Double.parseDouble(data[4]));
                 hargas.setHds(Double.parseDouble(data[5]));
-                
                 hargaList.add(hargas);
+                System.out.println("Kota : "+data[0]);
             }
         }catch(FileNotFoundException ex){
-            System.out.println("File tidak ada");
+            ex.getMessage();
         }
         return hargaList;
     }
